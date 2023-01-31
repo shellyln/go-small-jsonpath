@@ -51,28 +51,28 @@ import (
 func main() {
     json, err := jsonpath.ReadString(`{"test":[{"abc":1},{"abc":10}]}`)
     if err != nil {
-        fmt.Printf("ReadString: error = %v", err)
+        fmt.Printf("ReadString: error = %v\n", err)
         return
     }
 
     path, err := jsonpath.Compile(`$.test[1].abc`)
     if err != nil {
-        fmt.Printf("Compile: error = %v", err)
+        fmt.Printf("Compile: error = %v\n", err)
         return
     }
 
     v, err := path.Query(json) // returns nil, float64, string, []any, map[string]any
     if err != nil {
-        fmt.Printf("Query: error = %v", err)
+        fmt.Printf("Query: error = %v\n", err)
         return
     }
-    fmt.Printf("%v", v) // float64(10)
+    fmt.Printf("Query: %v\n", v) // float64(10)
 
     vn := path.QueryAsNumberOrZero(json) // returns zero value on failure
-    fmt.Printf("%v", vn) // float64(10)
+    fmt.Printf("QueryAsNumberOrZero: %v\n", vn) // float64(10)
 
     vs := path.QueryAsStringOrZero(json) // returns zero value on failure
-    fmt.Printf("%v", vs) // "" (zero value)
+    fmt.Printf("QueryAsStringOrZero: %v\n", vs) // "" (zero value)
 }
 ```
 
