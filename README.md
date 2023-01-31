@@ -1,6 +1,10 @@
 # Go Small JSONPath
 Small, feature limited JSONPath (+dialect) implementation.
 
+[![Test](https://github.com/shellyln/go-small-jsonpath/actions/workflows/test.yml/badge.svg)](https://github.com/shellyln/go-small-jsonpath/actions/workflows/test.yml)
+[![release](https://img.shields.io/github/v/release/shellyln/go-small-jsonpath)](https://github.com/shellyln/go-small-jsonpath/releases)
+[![Go version](https://img.shields.io/github/go-mod/go-version/shellyln/go-small-jsonpath)](https://github.com/shellyln/go-small-jsonpath)
+
 ## ✅ Features
 + Query that returns a single value
 + Safe query; returns zero value on failure
