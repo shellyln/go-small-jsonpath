@@ -30,6 +30,7 @@ const (
 	Type_Null
 	Type_Number
 	Type_String
+	Type_Boolean
 	Type_Object
 	Type_Array
 )
@@ -45,6 +46,33 @@ type CompiledJSONPath struct {
 
 func newParsedJSON() *parsedJSON {
 	return &parsedJSON{}
+}
+
+func FromAny(v interface{}) (*parsedJSON, error) {
+	p := newParsedJSON()
+
+	if v == nil {
+		p.typ = Type_Null
+		return p, nil
+	}
+
+	switch v.(type) {
+	case float64:
+		p.typ = Type_Number
+	case bool:
+		p.typ = Type_Boolean
+	case string:
+		p.typ = Type_String
+	case []interface{}:
+		p.typ = Type_Array
+	case map[string]interface{}:
+		p.typ = Type_Object
+	default:
+		return nil, errors.New("FromAny: Unknown type")
+	}
+
+	p.value = v
+	return p, nil
 }
 
 func ReadString(src string) (*parsedJSON, error) {
@@ -79,6 +107,11 @@ func ReadString(src string) (*parsedJSON, error) {
 		dst := ""
 		err = json.Unmarshal([]byte(src2), &dst)
 		p.typ = Type_String
+		p.value = dst
+	case 't', 'f':
+		dst := false
+		err = json.Unmarshal([]byte(src2), &dst)
+		p.typ = Type_Boolean
 		p.value = dst
 	default:
 		dst := float64(0.0)
